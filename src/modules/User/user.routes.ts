@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { Request, Response, Router } from "express";
-import { UserRepository } from "src/repositores";
+import { UserRepository } from "../../repositories";
 import UserController from "./user.controller";
 import UserHandler from "./user.handler";
 import UserValidator from "./user.validator";

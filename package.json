@@ -1,7 +1,13 @@
 {
-  "name": "pc-control",
+  "name": "pdv-brilhadori",
   "version": "1.0.0",
-  "description": "aplicativo para controlar o pc com o celular",
+  "description": "pdv para gerenciar négocios. Possui Integração com a balança TOLEDO PRIX 3 FIT.",
+  "keywords": [
+    "pdv",
+    "toledo",
+    "prix 3 fit",
+    "prix"
+  ],
   "main": "./src/main.js",
   "author": "PedroLuisBrilhadori",
   "license": "MIT",

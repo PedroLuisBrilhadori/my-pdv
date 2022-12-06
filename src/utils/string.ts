@@ -10,7 +10,7 @@ enum StringColors {
 }
 
 const StringUtils = {
-  app: `${StringColors.green}[APP]${StringColors.null} `,
+  app: `[${StringColors.green}APP${StringColors.null}]`,
 };
 
 export { StringColors, StringUtils };
