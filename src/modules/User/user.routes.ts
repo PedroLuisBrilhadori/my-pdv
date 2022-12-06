@@ -9,8 +9,6 @@ const repository = UserRepository();
 const userController = new UserController(repository);
 const userHandler = new UserHandler(userController, bcrypt);
 
-bcrypt;
-
 export default () => {
   const routes = Router();
 
