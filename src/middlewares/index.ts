@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
+import publicRoutes from "src/public.routes";
 
 export async function validateSanitizedRequest(req: Request, res: Response, next: NextFunction) {
   const errors = validationResult(req);
@@ -15,6 +16,10 @@ export async function validateSanitizedRequest(req: Request, res: Response, next
 export function verifyToken(req: Request, res: Response, next: NextFunction) {
   const token = req.body.token || req.query.token || req.headers["x-access-token"];
 
+  if (isPublicRoute(req)) {
+    return next();
+  }
+
   if (!token) {
     return res.status(403).send({ success: false, message: "É necessário um token para autenticação" });
   }
@@ -28,4 +33,14 @@ export function verifyToken(req: Request, res: Response, next: NextFunction) {
   }
 
   return next();
+}
+
+export function isPublicRoute(req: Request) {
+  const { originalUrl, method } = req;
+
+  const route = publicRoutes.filter((route) => originalUrl === route.route && method === route.method);
+
+  if (route.length) return true;
+
+  return false;
 }
