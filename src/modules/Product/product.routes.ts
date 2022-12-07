@@ -14,6 +14,7 @@ export default () => {
 
   routes.post(`/create`, ProductValidator.create, (req: Request, res: Response) => productHandler.create(req, res));
   routes.post(`/delete`, productValidator.delete, (req: Request, res: Response) => productHandler.delete(req, res));
+  routes.post(`/update/:id`, productValidator.update, (req: Request, res: Response) => productHandler.update(req, res));
 
   routes.get(`/`, (req: Request, res: Response) => productHandler.getAll(req, res));
 

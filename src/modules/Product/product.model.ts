@@ -4,7 +4,6 @@ import { Column, Entity, ObjectIdColumn } from "typeorm";
 export type CreateProduct = {
   name: string;
   price: number;
-  photo?: string;
 };
 
 @Entity("Product")
@@ -17,9 +16,6 @@ class Product {
 
   @Column()
   price: number;
-
-  @Column()
-  photo?: string;
 }
 
 export default Product;
