@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
-import publicRoutes from "src/public.routes";
+import publicRoutes from "../public.routes";
 
 export async function validateSanitizedRequest(req: Request, res: Response, next: NextFunction) {
   const errors = validationResult(req);

@@ -1,5 +1,5 @@
 import { Product, User } from "@modules/index";
-import AppDataSource from "src/loaders/database";
+import AppDataSource from "../loaders/database";
 
 export const UserRepository = () => AppDataSource.getRepository(User);
 
