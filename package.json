@@ -11,6 +11,9 @@
   "main": "./src/main.js",
   "author": "PedroLuisBrilhadori",
   "license": "MIT",
+  "engines": {
+    "node": "16.x.x"
+  },
   "scripts": {
     "build": "tsc --project tsconfig.json && tscpaths -p tsconfig.json -s ./src -o ./dist",
     "start": "node dist/main.js",

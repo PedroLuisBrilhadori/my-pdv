@@ -3,6 +3,9 @@ export type publicRoute = {
   method: string;
 };
 
-const publicRoutes: publicRoute[] = [{ route: "/api/products/", method: "GET" }];
+const publicRoutes: publicRoute[] = [
+  { route: "/api/products/", method: "GET" },
+  { route: "/api/products", method: "GET" },
+];
 
 export default publicRoutes;
