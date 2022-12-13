@@ -1,0 +1,15 @@
+{
+  "name": "pdv-back-end",
+  "version": 2,
+  "public": true,
+  "build": {
+    "src": "main.js",
+    "use": "@vercel/node"
+  },
+  "routes": [
+    {
+      "src": "api/(.*)",
+      "dest": "main.js"
+    }
+  ]
+}

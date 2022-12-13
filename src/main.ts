@@ -29,3 +29,7 @@ export const start = async () => {
 };
 
 start();
+
+const app = App().app;
+
+export { app };
