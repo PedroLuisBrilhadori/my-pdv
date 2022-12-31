@@ -1,5 +1,5 @@
 import { DeleteResult, Repository, UpdateResult } from "typeorm";
-import Product, { CreateProduct } from "./product.model";
+import Product, { CreateProduct } from "../model/product.model";
 
 class ProductController {
   constructor(private repository: Repository<Product>) {}
@@ -12,8 +12,10 @@ class ProductController {
     return product;
   }
 
-  async findAll(): Promise<Product[]> {
-    const products = await this.repository.find();
+  async findAll(order): Promise<Product[]> {
+    const products = await this.repository.find({
+      order,
+    });
 
     return products;
   }
@@ -30,8 +32,8 @@ class ProductController {
     return product;
   }
 
-  async update(id: string, { name, price }: CreateProduct): Promise<UpdateResult> {
-    const product = await this.repository.update(id, { name, price });
+  async update(name: string, price: number): Promise<UpdateResult> {
+    const product = await this.repository.update(name, { price });
 
     return product;
   }

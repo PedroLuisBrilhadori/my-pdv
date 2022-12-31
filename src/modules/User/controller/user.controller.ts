@@ -1,5 +1,5 @@
 import { Repository } from "typeorm";
-import User, { CreateUser } from "./user.model";
+import User, { CreateUser } from "../model/user.model";
 
 class UserController {
   constructor(private repository: Repository<User>) {}

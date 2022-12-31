@@ -3,10 +3,11 @@ import userRoutes from "@modules/User/user.routes";
 import { Router } from "express";
 import { verifyToken } from "./middlewares";
 
-const routes = Router();
+export default async () => {
+  const routes = Router();
 
-routes.use("/user", userRoutes());
+  routes.use("/user", await userRoutes());
+  routes.use("/products", verifyToken, await productRoutes());
 
-routes.use("/products", verifyToken, productRoutes());
-
-export default routes;
+  return routes;
+};

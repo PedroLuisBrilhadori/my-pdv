@@ -36,9 +36,9 @@ export function verifyToken(req: Request, res: Response, next: NextFunction) {
 }
 
 export function isPublicRoute(req: Request) {
-  const { originalUrl, method } = req;
+  const { baseUrl, method } = req;
 
-  const route = publicRoutes.filter((route) => originalUrl === route.route && method === route.method);
+  const route = publicRoutes.filter((route) => route.route.includes(baseUrl) && method === route.method);
 
   if (route.length) return true;
 

@@ -1,21 +1,21 @@
-import { ProductRepository } from "@repositories";
 import { Request, Response, Router } from "express";
-import ProductController from "./product.controller";
-import ProductHandler from "./product.handler";
-import productValidator from "./product.validator";
-import ProductValidator from "./product.validator";
+import ProductController from "./controller/product.controller";
+import ProductHandler from "./controller/product.handler";
+import productValidator from "./model/product.validator";
+import ProductValidator from "./model/product.validator";
+import AppDataSource from "src/loaders/database";
+import Product from "./model/product.model";
 
-const repository = ProductRepository();
-const productController = new ProductController(repository);
-const productHandler = new ProductHandler(productController);
+export default async () => {
+  const repository = (await AppDataSource).getRepository(Product);
+  const productController = new ProductController(repository);
+  const productHandler = new ProductHandler(productController);
 
-export default () => {
   const routes = Router();
 
-  routes.post(`/create`, ProductValidator.create, (req: Request, res: Response) => productHandler.create(req, res));
-  routes.post(`/delete`, productValidator.delete, (req: Request, res: Response) => productHandler.delete(req, res));
-  routes.post(`/update/:id`, productValidator.update, (req: Request, res: Response) => productHandler.update(req, res));
-
+  routes.post(`/`, ProductValidator.create, (req: Request, res: Response) => productHandler.create(req, res));
+  routes.put(`/:name`, productValidator.update, (req: Request, res: Response) => productHandler.update(req, res));
+  routes.delete(`/:name`, (req: Request, res: Response) => productHandler.delete(req, res));
   routes.get(`/`, (req: Request, res: Response) => productHandler.getAll(req, res));
 
   return routes;

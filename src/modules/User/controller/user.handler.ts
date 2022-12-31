@@ -12,7 +12,7 @@ class UserHandler {
       const password_hash = await this.bcrypt.hash(password, 10);
       const user = await this.controller.register({ name, email, password: password_hash });
 
-      const token = jwt.sign({ userId: user.id, email: user.email }, process.env.JWT_TOKEN, { expiresIn: "2h" });
+      const token = jwt.sign({ userId: user.name, email: user.email }, process.env.JWT_TOKEN, { expiresIn: "2h" });
 
       return res.status(201).json({
         success: true,
@@ -41,7 +41,7 @@ class UserHandler {
         return res.status(400).send({ sucess: false, message: "Credenciais do usuário inválidas!" });
       }
 
-      const token = jwt.sign({ userId: user.id, email: user.email }, process.env.JWT_TOKEN, { expiresIn: "2h" });
+      const token = jwt.sign({ userId: user.name, email: user.email }, process.env.JWT_TOKEN, { expiresIn: "2h" });
 
       res.status(200).send({
         success: true,

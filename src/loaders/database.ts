@@ -1,19 +1,31 @@
 import { DataSource } from "typeorm";
 import dotenv from "dotenv";
-import { Product, User } from "@modules/index";
+import { StringUtils } from "@utils/string";
 
 dotenv.config();
 
 const AppDataSource = new DataSource({
   name: "default",
-  type: "mongodb",
-  url: process.env.DB_URL,
-  port: 27017,
-  database: "test",
-  useNewUrlParser: true,
+  type: "mssql",
+  host: process.env.BD_HOST,
+  username: process.env.BD_USER,
+  password: process.env.BD_PASSWORD,
+  port: Number(process.env.BD_PORT),
+  database: process.env.BD_DATABASE,
   synchronize: true,
-  logging: true,
-  entities: [User, Product],
-});
+  logging: false,
+  entities: ["src/modules/**/model/*.model{.ts,.js}", "dist/modules/**/model/*.model{.ts,.js}"],
+  extra: {
+    trustServerCertificate: true,
+  },
+})
+  .initialize()
+  .then((dataSource) => {
+    console.log(`${StringUtils.app} | Banco de dados sincronizado!`);
+    return dataSource;
+  })
+  .catch((error) => {
+    throw new Error(`[Erro] | O servidor não foi iniciado. \nCódigo do erro: \n${error}`);
+  });
 
 export default AppDataSource;

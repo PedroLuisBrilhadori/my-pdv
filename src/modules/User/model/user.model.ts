@@ -1,4 +1,4 @@
-import { Column, Entity, ObjectID, ObjectIdColumn } from "typeorm";
+import { Column, Entity, PrimaryColumn } from "typeorm";
 
 export type CreateUser = {
   name: string;
@@ -6,12 +6,9 @@ export type CreateUser = {
   password: string;
 };
 
-@Entity("User")
+@Entity("DD_USERS")
 class User {
-  @ObjectIdColumn()
-  id: ObjectID;
-
-  @Column()
+  @PrimaryColumn()
   name: string;
 
   @Column()

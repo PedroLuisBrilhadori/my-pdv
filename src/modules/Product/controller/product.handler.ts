@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import ProductController from "./product.controller";
-import Product from "./product.model";
+import Product from "../model/product.model";
 
 class ProductHandler {
   constructor(private controller: ProductController) {}
@@ -29,8 +29,10 @@ class ProductHandler {
   }
 
   async getAll(req: Request, res: Response) {
+    const { name, price } = req.query;
+
     try {
-      const products: Product[] = await this.controller.findAll();
+      const products: Product[] = await this.controller.findAll({ name, price });
 
       return res.status(200).json({
         success: true,
@@ -44,7 +46,7 @@ class ProductHandler {
 
   async delete(req: Request, res: Response) {
     try {
-      const { name } = req.body;
+      const { name } = req.params;
 
       const deleteResult = await this.controller.delete(name);
 
@@ -62,16 +64,15 @@ class ProductHandler {
   }
 
   async update(req: Request, res: Response) {
-    const { name, price } = req.body;
-    const { id } = req.params;
+    const { price } = req.body;
+    const { name } = req.params;
 
     try {
-      const updateResult = await this.controller.update(id, { name, price });
+      const updateResult = await this.controller.update(name, price);
 
       return res.status(200).json({
         success: true,
         product: {
-          id,
           name,
           price,
         },
