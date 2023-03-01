@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import ProductController from "./product.controller";
 import Product from "../model/product.model";
+import defaultError from "@utils/error";
 
 class ProductHandler {
   constructor(private controller: ProductController) {}
@@ -18,13 +19,7 @@ class ProductHandler {
         },
       });
     } catch (error) {
-      if (`${error}`.includes("duplicate key error collection")) {
-        return res.status(400).json({ success: false, message: "O Produto já existe." });
-      }
-
-      console.error(error);
-
-      return res.status(500).json({ success: false, message: "Ocorreu um erro, tente novamente mais tarde :(" });
+      return defaultError(res, error, "Produto");
     }
   }
 
@@ -39,8 +34,7 @@ class ProductHandler {
         products: products,
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({ success: false, message: "Ocorreu um erro, tente novamente mais tarde :(" });
+      return defaultError(res, error, "Produto");
     }
   }
 
@@ -58,8 +52,7 @@ class ProductHandler {
         deleteResult,
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({ success: false, message: "Ocorreu um erro, tente novamente mais tarde :(" });
+      return defaultError(res, error, "Produto");
     }
   }
 
@@ -79,13 +72,7 @@ class ProductHandler {
         updateResult,
       });
     } catch (error) {
-      if (`${error}`.includes("duplicate key error collection")) {
-        return res.status(400).json({ success: false, message: "O Produto já existe." });
-      }
-
-      console.error(error);
-
-      return res.status(500).json({ success: false, message: "Ocorreu um erro, tente novamente mais tarde :(" });
+      return defaultError(res, error, "Produto");
     }
   }
 }

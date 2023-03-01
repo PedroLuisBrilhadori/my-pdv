@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import UserController from "./user.controller";
 import * as jwt from "jsonwebtoken";
+import defaultError from "@utils/error";
 
 class UserHandler {
   constructor(private controller: UserController, private bcrypt) {}
@@ -22,8 +23,7 @@ class UserHandler {
         },
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({ success: false, message: "Ocorreu um erro, tente novamente mais tarde :(" });
+      return defaultError(res, error, "Usuário");
     }
   }
 
@@ -52,8 +52,7 @@ class UserHandler {
         },
       });
     } catch (error) {
-      console.error(error);
-      return res.status(500).send("Erro, tente novamente mais tarde :(");
+      return defaultError(res, error, "Usuário");
     }
   }
 }
