@@ -14,7 +14,7 @@ export async function validateSanitizedRequest(req: Request, res: Response, next
 }
 
 export function verifyToken(req: Request, res: Response, next: NextFunction) {
-  const token = req.body.token || req.query.token || req.headers["x-access-token"];
+  const token = req.body.token || req.query.token || req.headers["x-access-token"] || req.headers["authorization"]?.split(" ")[1];
 
   if (isPublicRoute(req)) {
     return next();
