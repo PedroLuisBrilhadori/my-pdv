@@ -7,10 +7,10 @@ class ProductHandler {
   constructor(private controller: ProductController) {}
 
   async create(req: Request, res: Response) {
-    const { name, price } = req.body;
+    const { name, price, unit } = req.body;
 
     try {
-      const product = await this.controller.create({ name, price });
+      const product = await this.controller.create({ name, price, unit });
 
       return res.status(201).json({
         success: true,
@@ -57,11 +57,11 @@ class ProductHandler {
   }
 
   async update(req: Request, res: Response) {
-    const { price } = req.body;
+    const { price, unit } = req.body;
     const { name } = req.params;
 
     try {
-      const updateResult = await this.controller.update(name, price);
+      const updateResult = await this.controller.update(name, price, unit);
 
       return res.status(200).json({
         success: true,

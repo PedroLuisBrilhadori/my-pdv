@@ -4,8 +4,8 @@ import Product, { CreateProduct } from "../model/product.model";
 class ProductController {
   constructor(private repository: Repository<Product>) {}
 
-  async create({ name, price }: CreateProduct): Promise<Product> {
-    const product = this.repository.create({ name, price });
+  async create({ name, price, unit }: CreateProduct): Promise<Product> {
+    const product = this.repository.create({ name, price, unit });
 
     await this.repository.save(product);
 
@@ -32,8 +32,8 @@ class ProductController {
     return product;
   }
 
-  async update(name: string, price: number): Promise<UpdateResult> {
-    const product = await this.repository.update(name, { price });
+  async update(name: string, price: number, unit: boolean): Promise<UpdateResult> {
+    const product = await this.repository.update(name, { price, unit });
 
     return product;
   }
