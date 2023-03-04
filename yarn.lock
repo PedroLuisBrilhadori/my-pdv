@@ -4437,6 +4437,11 @@ pretty-quick@^3.1.3:
     mri "^1.1.5"
     multimatch "^4.0.0"
 
+prix-module@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/prix-module/-/prix-module-1.0.9.tgz#215ab53aec551be69f182e54aee1a88b438c547e"
+  integrity sha512-k/18uv3E7FujwOzvNy1q5BCIIANp0VrkBF2bQtB1zT/33zsE1iibbMPZX11k6XOvK4EPiIb7XpZPlGZEzpgo+w==
+
 prompts@^2.0.1:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/prompts/-/prompts-2.4.2.tgz#7b57e73b3a48029ad10ebd44f74b01722a4cb069"
