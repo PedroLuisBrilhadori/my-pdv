@@ -10,6 +10,9 @@ class Cart {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
+  @Column("varchar", { nullable: false, length: "40" })
+  name: string;
+
   @Column("varchar", { nullable: true, length: "40" })
   clientName?: string;
 

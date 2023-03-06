@@ -23,19 +23,12 @@ export default class CartController {
     return await this.repositories.cart.delete({ id });
   }
 
-  async createCart(data: { name: string; amount: number }, clientName?: string) {
-    if (!data) throw new PdvError({ status: "pdv-error", message: "É necessário adicionar um produto para criar um carrinho." });
+  async createCart(name: string, product: Product, amount: number, clientName?: string) {
+    if (!product) throw new PdvError({ status: "pdv-error", message: "É necessário adicionar um produto para criar um carrinho." });
 
     try {
-      const cart = this.repositories.cart.create({ clientName });
-
-      const product = new Product();
-      product.name = data.name;
-
-      const item = new Item();
-      item.amount = data.amount;
-      item.cart = cart;
-      item.product = product;
+      const cart = this.repositories.cart.create({ name, clientName });
+      const item = this.getItem(cart, product, amount);
 
       await this.repositories.cart.save(cart);
       await this.repositories.item.save(item);
@@ -65,5 +58,14 @@ export default class CartController {
     await this.repositories.cart.save(cart);
 
     return cart;
+  }
+
+  private getItem(cart: Cart, product: Product, amount: number) {
+    const item = new Item();
+    item.amount = amount;
+    item.cart = cart;
+    item.product = product;
+
+    return item;
   }
 }
