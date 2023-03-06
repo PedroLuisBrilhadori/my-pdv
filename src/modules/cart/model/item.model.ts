@@ -4,7 +4,7 @@ import Cart from "./cart.model";
 
 @Entity("PDV_ITEMS")
 export default class Item {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("uuid")
   id: string;
 
   @PrimaryColumn("uuid")

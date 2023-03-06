@@ -28,7 +28,6 @@ export default class CartController {
       let cart = this.repositories.cart.create({ name, clientName });
 
       await this.repositories.cart.save(cart);
-      await this.repositories.item.query("DBCC CHECKIDENT (pdv_items, RESEED, 0);");
 
       if (items) cart = await this.addItems(cart, items);
 
@@ -49,7 +48,19 @@ export default class CartController {
     return cart;
   }
 
-  async addItem(item: Item) {
+  async removeItem(cartId: string, itemId: string) {
+    const item = await this.repositories.item.findOne({ where: { cartId: cartId, id: itemId } });
+
+    if (!item) throw new PdvError({ status: "pdv-error", message: "O Item ou o Carrinho não existe" });
+
+    this.repositories.item.delete(item);
+
+    const cart = await this.findOne(cartId);
+
+    return cart;
+  }
+
+  private async addItem(item: Item) {
     const cart = await this.findOne(item.cart.id);
 
     try {
@@ -63,15 +74,6 @@ export default class CartController {
 
     const lastItem = cart.items.pop();
     cart.items = [...cart.items, { ...lastItem, cart: undefined }];
-
-    return cart;
-  }
-
-  async removeitem(id: string, productName: string) {
-    const cart = await this.findOne(id);
-    cart.items = cart.items.filter((item) => item.product.name !== productName);
-
-    await this.repositories.cart.save(cart);
 
     return cart;
   }

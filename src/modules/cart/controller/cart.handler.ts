@@ -36,6 +36,21 @@ export default class CartHandler {
     }
   }
 
+  async remmoveItem(req: Request, res: Response) {
+    const { cartId, itemId } = req.params;
+
+    try {
+      const cart = await this.controller.removeItem(cartId, itemId);
+
+      res.status(200).json({
+        success: true,
+        cart,
+      });
+    } catch (error) {
+      defaultError(res, error, "Carrinho");
+    }
+  }
+
   async getAll(req: Request, res: Response) {
     try {
       const carts = await this.controller.findAll();

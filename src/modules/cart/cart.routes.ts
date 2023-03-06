@@ -17,6 +17,7 @@ export async function cartRoutes() {
   routes.get("/:id", (req, res) => handler.getCart(req, res));
   routes.post("/create", (req, res) => handler.create(req, res));
   routes.post("/:id", (req, res) => handler.addItems(req, res));
+  routes.delete("/:cartId/:itemId", (req, res) => handler.remmoveItem(req, res));
 
   return routes;
 }
