@@ -6,7 +6,7 @@ import UserValidator from "./model/user.validator";
 import AppDataSource from "src/loaders/database";
 import User from "./model/user.model";
 
-export default async () => {
+export async function userRoutes() {
   const repository = (await AppDataSource).getRepository(User);
   const userController = new UserController(repository);
   const userHandler = new UserHandler(userController, bcrypt);
@@ -21,4 +21,4 @@ export default async () => {
   });
 
   return routes;
-};
+}

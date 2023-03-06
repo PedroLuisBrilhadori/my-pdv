@@ -6,7 +6,7 @@ import ProductValidator from "./model/product.validator";
 import AppDataSource from "src/loaders/database";
 import Product from "./model/product.model";
 
-export default async () => {
+export async function productRoutes() {
   const repository = (await AppDataSource).getRepository(Product);
   const productController = new ProductController(repository);
   const productHandler = new ProductHandler(productController);
@@ -19,4 +19,4 @@ export default async () => {
   routes.get(`/`, (req: Request, res: Response) => productHandler.getAll(req, res));
 
   return routes;
-};
+}
