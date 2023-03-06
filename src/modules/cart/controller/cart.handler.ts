@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import CartController from "./cart.controller";
 import defaultError from "@utils/error";
+import HttpStatusCode from "@utils/http-status-code";
 
 export default class CartHandler {
   constructor(private controller: CartController) {}
@@ -11,7 +12,7 @@ export default class CartHandler {
     try {
       const cart = await this.controller.createCart({ name, items, clientName });
 
-      res.status(201).json({
+      res.status(HttpStatusCode.CREATED).json({
         success: true,
         cart,
       });
@@ -27,7 +28,7 @@ export default class CartHandler {
     try {
       const cart = await this.controller.addItems({ id }, items);
 
-      res.status(201).json({
+      res.status(HttpStatusCode.CREATED).json({
         success: true,
         cart,
       });
@@ -42,7 +43,7 @@ export default class CartHandler {
     try {
       const cart = await this.controller.removeItem(cartId, itemId);
 
-      res.status(200).json({
+      res.status(HttpStatusCode.OK).json({
         success: true,
         cart,
       });
@@ -55,7 +56,7 @@ export default class CartHandler {
     try {
       const carts = await this.controller.findAll();
 
-      res.status(200).json({
+      res.status(HttpStatusCode.OK).json({
         success: true,
         carts,
       });
@@ -70,7 +71,7 @@ export default class CartHandler {
     try {
       const cart = await this.controller.findOne(id);
 
-      res.status(200).json({
+      res.status(HttpStatusCode.OK).json({
         success: true,
         cart,
       });

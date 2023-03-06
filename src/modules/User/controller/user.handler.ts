@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import UserController from "./user.controller";
 import * as jwt from "jsonwebtoken";
 import defaultError from "@utils/error";
+import HttpStatusCode from "@utils/http-status-code";
 
 class UserHandler {
   constructor(private controller: UserController, private bcrypt) {}
@@ -15,7 +16,7 @@ class UserHandler {
 
       const token = jwt.sign({ userId: user.name, email: user.email }, process.env.JWT_TOKEN, { expiresIn: "2h" });
 
-      return res.status(201).json({
+      return res.status(HttpStatusCode.CREATED).json({
         success: true,
         user: {
           ...user,
@@ -34,16 +35,16 @@ class UserHandler {
       const user = await this.controller.login(email);
 
       if (!user) {
-        return res.status(404).send({ success: false, message: "Usuário não encontrado!" });
+        return res.status(HttpStatusCode.NOT_FOUND).send({ success: false, message: "Usuário não encontrado!" });
       }
 
       if (!(await this.bcrypt.compare(password, user.password))) {
-        return res.status(400).send({ sucess: false, message: "Credenciais do usuário inválidas!" });
+        return res.status(HttpStatusCode.BAD_REQUEST).send({ sucess: false, message: "Credenciais do usuário inválidas!" });
       }
 
       const token = jwt.sign({ userId: user.name, email: user.email }, process.env.JWT_TOKEN, { expiresIn: "2h" });
 
-      res.status(200).send({
+      res.status(HttpStatusCode.OK).send({
         success: true,
         user: {
           ...user,

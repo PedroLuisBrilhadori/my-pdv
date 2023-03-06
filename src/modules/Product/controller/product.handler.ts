@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import ProductController from "./product.controller";
 import Product from "../model/product.model";
 import defaultError from "@utils/error";
+import HttpStatusCode from "@utils/http-status-code";
 
 class ProductHandler {
   constructor(private controller: ProductController) {}
@@ -12,7 +13,7 @@ class ProductHandler {
     try {
       const product = await this.controller.create({ name, price, unit });
 
-      return res.status(201).json({
+      return res.status(HttpStatusCode.CREATED).json({
         success: true,
         product: {
           ...product,
@@ -29,7 +30,7 @@ class ProductHandler {
     try {
       const products: Product[] = await this.controller.findAll({ name, price });
 
-      return res.status(200).json({
+      return res.status(HttpStatusCode.OK).json({
         success: true,
         products: products,
       });
@@ -44,7 +45,7 @@ class ProductHandler {
 
       const deleteResult = await this.controller.delete(name);
 
-      return res.status(200).json({
+      return res.status(HttpStatusCode.OK).json({
         success: true,
         product: {
           name,
@@ -63,7 +64,7 @@ class ProductHandler {
     try {
       const updateResult = await this.controller.update(name, price, unit);
 
-      return res.status(200).json({
+      return res.status(HttpStatusCode.OK).json({
         success: true,
         product: {
           name,

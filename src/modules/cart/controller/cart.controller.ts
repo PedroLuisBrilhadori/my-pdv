@@ -3,6 +3,7 @@ import Item from "../model/item.model";
 import { Repository } from "typeorm";
 import { PdvError } from "@utils/error";
 import Product from "@modules/Product/model/product.model";
+import HttpStatusCode from "@utils/http-status-code";
 
 export default class CartController {
   constructor(private repositories: { cart: Repository<Cart>; item: Repository<Item> }) {}
@@ -10,7 +11,7 @@ export default class CartController {
   async findOne(id: string) {
     const cart = await this.repositories.cart.findOne({ where: { id } });
 
-    if (!cart) throw new PdvError({ status: "pdv-error", message: "Compra não existente" });
+    if (!cart) throw new PdvError({ status: "pdv-error", message: "Compra não existente", httpStatus: HttpStatusCode.NOT_FOUND });
 
     return cart;
   }
@@ -33,7 +34,7 @@ export default class CartController {
 
       return cart;
     } catch (error) {
-      throw new PdvError({ status: "pdv-error", message: "O produto não existe.", error });
+      throw new PdvError({ status: "pdv-error", message: "O produto não existe.", error, httpStatus: HttpStatusCode.NOT_FOUND });
     }
   }
 
@@ -51,7 +52,7 @@ export default class CartController {
   async removeItem(cartId: string, itemId: string) {
     const item = await this.repositories.item.findOne({ where: { cartId: cartId, id: itemId } });
 
-    if (!item) throw new PdvError({ status: "pdv-error", message: "O Item ou o Carrinho não existe" });
+    if (!item) throw new PdvError({ status: "pdv-error", message: "O Item ou o Carrinho não existe", httpStatus: HttpStatusCode.NOT_FOUND });
 
     this.repositories.item.delete(item);
 

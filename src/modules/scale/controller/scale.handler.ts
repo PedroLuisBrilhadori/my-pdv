@@ -1,6 +1,7 @@
 import defaultError from "@utils/error";
 import ScaleController from "./scale.controlller";
 import { Request, Response } from "express";
+import HttpStatusCode from "@utils/http-status-code";
 
 export default class ScaleHandler {
   constructor(private controller: ScaleController) {}
@@ -9,7 +10,7 @@ export default class ScaleHandler {
     try {
       const weight = await this.controller.getWeight();
 
-      return res.status(200).json({
+      return res.status(HttpStatusCode.OK).json({
         success: true,
         weight,
       });
@@ -24,7 +25,7 @@ export default class ScaleHandler {
     try {
       await this.controller.setPrice(price);
 
-      return res.status(200).json({
+      return res.status(HttpStatusCode.OK).json({
         success: true,
       });
     } catch (error) {
