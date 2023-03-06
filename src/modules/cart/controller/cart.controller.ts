@@ -23,18 +23,14 @@ export default class CartController {
     return await this.repositories.cart.delete({ id });
   }
 
-  async createCart(name: string, product: Product, amount: number, clientName?: string) {
-    if (!product) throw new PdvError({ status: "pdv-error", message: "É necessário adicionar um produto para criar um carrinho." });
-
+  async createCart({ name, items, clientName }: { name: string; items?: Item[]; clientName?: string }) {
     try {
-      const cart = this.repositories.cart.create({ name, clientName });
-      const item = this.getItem(cart, product, amount);
+      let cart = this.repositories.cart.create({ name, clientName });
 
       await this.repositories.cart.save(cart);
-      await this.repositories.item.save(item);
       await this.repositories.item.query("DBCC CHECKIDENT (pdv_items, RESEED, 0);");
 
-      cart.items = [{ ...item, cart: undefined }];
+      if (items) cart = await this.addItems(cart, items);
 
       return cart;
     } catch (error) {
@@ -42,11 +38,28 @@ export default class CartController {
     }
   }
 
-  async additem(id: string, item: Item) {
-    const cart = await this.findOne(id);
-    cart.items.push(item);
+  async addItems(cart: Cart, items: Item[]) {
+    for (let item of items) {
+      item = this.getItem(cart, item.product, item.amount);
+      cart = await this.addItem(item);
+    }
+    return cart;
+  }
+
+  async addItem(item: Item) {
+    const cart = await this.findOne(item.cart.id);
+
+    try {
+      cart.items.push(item);
+    } catch (error) {
+      cart.items = [item];
+    }
 
     await this.repositories.cart.save(cart);
+    await this.repositories.item.save(item);
+
+    const lastItem = cart.items.pop();
+    cart.items = [...cart.items, { ...lastItem, cart: undefined }];
 
     return cart;
   }

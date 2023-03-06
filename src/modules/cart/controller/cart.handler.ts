@@ -6,10 +6,10 @@ export default class CartHandler {
   constructor(private controller: CartController) {}
 
   async create(req: Request, res: Response) {
-    const { name, product, amount, clientName } = req.body;
+    const { name, items, clientName } = req.body;
 
     try {
-      const cart = await this.controller.createCart(name, product, amount, clientName);
+      const cart = await this.controller.createCart({ name, items, clientName });
 
       res.status(201).json({
         success: true,
