@@ -38,7 +38,10 @@ export default class CartController {
     }
   }
 
-  async addItems(cart: Cart, items: Item[]) {
+  async addItems(data: Cart | { id: string }, items: Item[]) {
+    let cart = new Cart();
+    cart.id = data.id;
+
     for (let item of items) {
       item = this.getItem(cart, item.product, item.amount);
       cart = await this.addItem(item);

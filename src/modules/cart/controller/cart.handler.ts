@@ -20,6 +20,22 @@ export default class CartHandler {
     }
   }
 
+  async addItems(req: Request, res: Response) {
+    const { items } = req.body;
+    const { id } = req.params;
+
+    try {
+      const cart = await this.controller.addItems({ id }, items);
+
+      res.status(201).json({
+        success: true,
+        cart,
+      });
+    } catch (error) {
+      defaultError(res, error, "Carrinho");
+    }
+  }
+
   async getAll(req: Request, res: Response) {
     try {
       const carts = await this.controller.findAll();
