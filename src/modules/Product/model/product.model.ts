@@ -1,5 +1,6 @@
+import Item from "@modules/cart/model/item.model";
 import { BooleanTransformer } from "@utils/transformers";
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 
 export type CreateProduct = {
   name: string;
@@ -22,6 +23,9 @@ class Product {
     transformer: new BooleanTransformer(),
   })
   unit?: boolean;
+
+  @OneToMany(() => Item, (item) => item.product, { eager: false })
+  items?: Item[];
 }
 
 export default Product;
