@@ -8,7 +8,7 @@ export default async () => {
   routes.use("/user", await userRoutes());
   routes.use("/products", verifyToken, await productRoutes());
   routes.use("/scale", await scaleRoutes());
-  routes.use("/cart", await cartRoutes());
+  routes.use("/cart", verifyToken, await cartRoutes());
 
   return routes;
 };
